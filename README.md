@@ -8,7 +8,8 @@
 | Thymeleaf | [link][day2] |
 | JPA       | [link][day3] |
 | Function  | [link][day4] |
-| Thuật ngữ | [link][day5] |
+| Test      | [link][day5] |
+| Thuật ngữ | [link][day6] |
 
 [day1]:Day1.md
 [day2]:Day2.md
