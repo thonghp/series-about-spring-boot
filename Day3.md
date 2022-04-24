@@ -27,6 +27,7 @@
 ## 2. Many to many
 
 - Override `hashCode()` and `equals()` **==>** thường là id 
+    - Nếu ta không ghi đè thì nó sẽ hash mặc định tất cả field của object để so sánh còn nếu ta ghi đè id lúc này nó chỉ hash mỗi id xong r so sánh tăng khả năng optimize 
 
 ```java
 @Override
