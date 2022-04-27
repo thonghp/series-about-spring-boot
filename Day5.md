@@ -18,6 +18,8 @@
 
 ## 2. Demo 
 
+**Test thường**
+
 ```java 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
@@ -71,5 +73,23 @@ public class UserRepositoryTests {
         
         assertThat(products).size().isGreaterThan(0);
     }
+}
+```
+
+**Test security**
+
+```java
+@Test
+public void testEncodePassword() {
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String rawPassword = "thong123";
+    String encodedPassword = passwordEncoder.encode(rawPassword);
+
+    System.out.println(encodedPassword);
+
+    // kiểm tra password thô và password đã encode có khơp không
+    boolean matches = passwordEncoder.matches(rawPassword, encodedPassword);
+
+    assertThat(matches).isTrue();
 }
 ```
