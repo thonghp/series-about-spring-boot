@@ -73,6 +73,22 @@ public class UserRepositoryTests {
         
         assertThat(products).size().isGreaterThan(0);
     }
+
+    @Test
+    public void testListFirstPage() {
+        int pageNumber = 0; // trang đầu tiên
+        int pageSize = 4; // lấy ra 4 thằng đầu
+
+        Pageable pageable = PageRequest.of(pageNumber,pageSize);
+        Page<User> page = userRepository.findAll(pageable);
+
+        // convert page to list
+        List<User> listUsers = page.getContent();
+
+        listUsers.forEach(user -> System.out.println(user));
+
+        assertThat(listUsers.size()).isEqualTo(pageSize);
+    }
 }
 ```
 
