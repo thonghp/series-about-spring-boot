@@ -16,9 +16,6 @@
     -  `name = "first_name", length = 40, nullable = false, unique = true` **==>** `varchar, 40, not null, unique` 
     - `@Nationalized` **==>** chỉ định kiểu `nvarchar`
 - `@ManyToMany()` **==>** Kết bảng nhiều - nhiều
-    - `fetch = FetchType.EAGER/LAZY` **==>** Mặc định là **LAZY**
-        - `ManyToMany`, `OneToMany` **==>** Mặc định là **LAZY**
-        - `OneToOne` và `ManyToOne` **==>** Mặc định là **EAGER**
 - `@JoinTable` **==>** join 2 bảng
     - `@JoinColumn` **==>** chỉ định tên cột join
 - `@Transient` **==>** thuộc tính này sẽ không lưu vào db
@@ -56,11 +53,14 @@ public int hashCode() {
 private Set<Role> roles = new HashSet<>();
 ```
 
-> - **EAGER ==>** Khi lấy các field của User từ db thì các role liên quan sẽ được lấy theo các User, khi **giao dịch kết thúc** nó vẫn được **lưu trữ** trong các Collection
->   - **Ưu điểm ==>** luôn lấy được các đối tượng liên quan, xử lý đơn giản, thuận tiện
->   - **Nhược điểm ==>** tốn nhiều thời gian và bộ nhớ khi chọn, dữ liệu lấy ra là thừa và không cần thiết.
-> - **LAZY ==>** Tương tự như EAGER nhưng khi giao dịch kết thúc thì nó sẽ **không còn lưu trữ** các role trong Collection 
->   - **Ưu điểm ==>** tiết kiệm thời gian và bộ nhớ khi chọn
->   - **Nhược điểm ==>** gây ra lỗi **LazyInitializationException**, khi bạn muốn lấy lại các đối tượng liên quan, bạn phải mở giao dịch lại để truy vấn
+## 3. Lazy và Eager    
+    
+- Thường là select và find thể hiện rõ 2 tính chất này
+- EAGER sẽ lấy tất cả mọi thứ 1 lần **==> chậm**
+    - `OneToOne` và `ManyToOne` **==>** Mặc định là **EAGER**
+    - Vd: khi query khoá học thì mặc định nó query luôn object sinh viên khi kết thúc thì object vẫn còn 
+- LAZY sẽ lấy khi có request **==> nhanh** nhưng dễ xảy ra lỗi **LazyInitializationException**
+    - `ManyToMany` và `OneToMany` **==>** Mặc định là **LAZY**
+    - Vd: khi query khoá học thì nó không lấy object sinh viên liên quan nhưng nó vẫn nằm trong transaction khi kết thúc thì object sinh viên sẽ xoá theo
 
 
