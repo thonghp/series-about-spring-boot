@@ -6,8 +6,10 @@
 | ---------      | ------------ |
 | Overview       | [link][day0] |
 | Spring         | [link][day1] |
+| Repository     | [link][day8] |
 | Thymeleaf      | [link][day2] |
 | JPA            | [link][day3] |
+| Security       | [link][day9] |
 | Function       | [link][day4] |
 | Test           | [link][day5] |
 | Thuật ngữ      | [link][day6] |
@@ -21,3 +23,5 @@
 [day5]:Day5.md
 [day6]:Day6.md
 [day7]:Day7.md
+[day8]:Day8.md
+[day9]:Day9.md
