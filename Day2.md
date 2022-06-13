@@ -2,40 +2,55 @@
 
 ## Mục lục nội dung 
 
-  - [1. URL](#1-url)
-  - [2. Thymeleaf Standard Expression](#2-thymeleaf-standard-expression)
-  - [3. Authentication](#3-authentication)
-  - [4. Fragment](#4-fragment)
-  
-## 1. URL           
+  - [1. Overview](#1-overview)
+  - [2. Expression](#2-expression)
+  - [3. Fragment](#3-fragment)
 
-- Thuộc tính sử dụng **==>** `th:src`, `th:href`, `th:action`
-- Cú pháp **==>** `"@{/...}"` 
-    - Trang đầu tiên **==>** `@{/}`
-    - Nối url `"@{'/users/edit/'+${user.id}}"` **==>** users/edit/1
-    - absolute **==>** `@{https://frontbackend.com/tag/thymeleaf}`
-    - context-relative **==>** `@{/images/logo.png}"`
-    - Url của class **==>** `@{${user.photosImagePath}}`
+## 1. Overview
 
-## 2. Thymeleaf Standard Expression
+- Là một kiểu sever side rendering
+- Là một view template engine
+- Data + view template ==> HTML 
 
-- Thuộc tính thường sử dụng trong form **==>** `th:action`, `th:object`, `th:field`, `th:block`, `th:each`, `th:text`, `th:value`
-- Cú pháp
-    - `th:action` **==>** điều hướng tới server xử lý submit form, tương đương với `th:attr="action="`
-        - Vd: `th:action="@{/users/save}"`
-    - `th:object` **==>** map tới entity, tương đương với `session.entity`
-        - Vd: `th:object="${user}"` **==> user** là `Model` 
-    - `th:field` **==>** thuộc tính của object map với entity, tương đương với `session.entity.properties`
-        - Vd: `th:field="*{email}"`
-    - `th:block` **==>** tạo ra 1 vùng chứa để thực thi và sau khi xong sẽ tự mất, thường đi với `th:each`
-        - Vd: `<th:block th:each="role: ${listRoles}"></th:block>`
-    - `th:text` **==>** Đổ data dưới dạng text 
-        - tương đương với `[[${role.description}]]` - **Nội tuyến**
-    - `th:value` **==>** đổ giá trị thường trong thẻ input   
+## 2. Expression
+
+- `${}` **==>** thay giá trị của biến 
+- `*{}` **==>** dùng trong form khi data binding
+- `#{}` **==>** message expression, biểu thức thay chuỗi đa ngôn ngữ từ file resource.
+- `@{}` **==>** chỉ thị đường dẫn
+    - thường được sử dụng bởi **==>** `th:src`, `th:href`, `th:action`
+        - Trang đầu tiên **==>** `@{/}`
+        - Nối url `"@{'/users/edit/'+${user.id}}"` **==>** users/edit/1
+        - absolute **==>** `@{https://frontbackend.com/tag/thymeleaf}`
+        - context-relative **==>** `@{/images/logo.png}"`
+        - Url của class **==>** `@{${user.photosImagePath}}`
+- `~{}` **==>** fragement expression
+- `th:action` **==>** điều hướng tới server xử lý submit form, tương đương với `th:attr="action="`
+    - Vd: `th:action="@{/users/save}"`
+- `th:object` **==>** map tới entity, tương đương với `session.entity`
+    - Vd: `th:object="${user}"` **==> user** là `Model` 
+- `th:field` **==>** thuộc tính của object map với entity, tương đương với `session.entity.properties`
+    - Vd: `th:field="*{email}"`
+- `th:block` **==>** tạo ra 1 vùng chứa để thực thi và sau khi xong sẽ tự mất, thường đi với `th:each`
+    - Vd: `<th:block th:each="role: ${listRoles}"></th:block>`
+- `th:text` **==>** Đổ một đoạn text lên view 
+    - tương đương với `[[${role.description}]]` - **Nội tuyến**
+- `th:utext` **==>** Đổ một đoạn text có chứa thẻ HTML, CSS vào view 
+    - `model.addAttribute("message", "<span style='color:red'>HTML</span>");`
+- `th:value` **==>** đổ giá trị thường trong thẻ input   
 - `th:if` **==>** Câu điều kiện 
     - Vd: `th:if="${message != null}"` **==> message** có thể là `RedirectAttributes` hoặc `Model`
 - `th:unless` **==>** phủ định của `th:if`
     - Vd: `th:if="${message != null}"` **==>** `th:unless="${message != null}"`
+- `th:switch - th:case`    
+
+```html
+<td th:switch="${user.role}">
+    <span th:case="admin">Quản lý hệ thống</span>
+    <span th:case="editor">Duyệt bài</span>
+</td>
+```
+
 - `th:each` **==>** Vòng lặp
     - Vd: `th:each="role: ${listRoles}"` **==>** `[[${role.name}]]` **==> listRoles** thường là **Model** 
     - Vd: `th:each="i : ${#numbers.sequence(1,5)}">` **==>** `[[${i}]]` **==>** i chạy từ 1 đến 5
@@ -48,14 +63,33 @@
     - `th:remove="tag"` **==>** Xoá thẻ chứa nhưng không xoá thẻ con
     - `th:remove="all-but-first"` **==>** Xoá thẻ chứa và tất cả thẻ con
     - `th:remove="none"` **==>** Không làm gì cả
+- List box
 
-## 3. Authentication      
+```html
+<!-- list box -->
+<select name="nationality" id="nationality">
+    <option
+    th:each="country:${countries}"
+    th:text="${country.name}"
+    th:value="${country.code}"
+    th:selected="${travelRequest.nationality==country.code}">China</option>
+</select>
 
-- `xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"` khai báo trên thẻ html
-- `sec:authentication="principal.fullname"` **==>** truy cập authentication object 
-    - **principal.fullname** với fullname là method getFullname nằm trong file implements **UserDetails**
+<!-- checkbox, radio button -->
+<span th:each="country:${countries}">
+    <input type="checkbox" name="visitedCountries"
+    th:value="${country.code}"
+    th:checked="${#lists.contains(travelRequest.visitedCountries, country.code)}">
+    <label th:text="${country.name}" for="visitedCountries"></label><br>
+</span>
 
-### 4. Fragment
+<!-- hiển thị lại ô đã chọn -->
+th:selected="${travelRequest.nationality==country.code}"
+th:checked="${travelRequest.travelType.value==travel_type.value}">
+th:checked="${#lists.contains(travelRequest.visitedCountries, country.code)}"
+```
+
+## 3. Fragment
 
 Dùng để tách code ra phục vụ cho việc tái sử dụng 
 
@@ -75,4 +109,8 @@ Dùng để tách code ra phục vụ cho việc tái sử dụng
 </th>
 
 <th th:replace="fragments :: column_link('lastName', 'Họ', 'none')"/>
-```
+```    
+
+
+
+
