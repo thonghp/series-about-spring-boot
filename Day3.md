@@ -3,7 +3,10 @@
 ## Mục lục nội dung 
 
   - [1. Annotation](#1-annotation)
-  - [2. Many to many](#2-many-to-many)
+  - [2. Join table](#2-join-table)
+    - [2.1 Many to many](#21-many-to-many)
+    - [2.2 One to many](#22-one-to-many)
+  - [3. Lazy và Eager](#3-lazy-và-eager)
 
 ## 1. Annotation
 
@@ -21,7 +24,9 @@
 - `@Transient` **==>** thuộc tính này sẽ không lưu vào db
     - Nếu trường đó **implement serializable** thì dùng keyword transient mới bỏ qua không lưu vào db
 
-## 2. Many to many
+## 2. Join table
+
+### 2.1 Many to many
 
 - Override `hashCode()` and `equals()` **==>** thường là id 
     - Mục đích sử dụng khi so sánh 2 đối tượng thì nó so sánh tham chiếu **==>** phải ghi đè **==>** chọn id **==>** để hạn chế nếu ta chỉ override lại instance thì nó sẽ equals và hash tất cả thuộc tính
@@ -51,6 +56,19 @@ public int hashCode() {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
 private Set<Role> roles = new HashSet<>();
+```
+
+### 2.2 One to many 
+
+- Phân cấp 
+
+```java
+@OneToOne
+@JoinColumn(name = "parent_id")
+private Category parent;
+
+@OneToMany(mappedBy = "parent")
+private Set<Category> children = new HashSet<>();
 ```
 
 ## 3. Lazy và Eager    
