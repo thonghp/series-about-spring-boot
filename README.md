@@ -2,14 +2,14 @@
 
 - Series về các chủ đề spring boot
 - Nếu các bạn thấy hay có thể đánh dấu cho mình 1 sao + chia sẽ đến mọi người
-- Nếu có phần thắc mắc hay mình gặp sai sót trong phần nội dung, mong các bạn đóng góp ý kiến đến email **`thonghoangpham123@gmail.com`**, Mình xin cảm ơn. 
+- Nếu có phần thắc mắc hay mình gặp sai sót trong phần nội dung, mong các bạn đóng góp ý kiến đến email **`thonghoangpham123@gmail.com`**, Mình xin cảm ơn.
 
 ## Mục lục nội dung
 
 | Bài Viết               | Link              |
 | ---------------------- | ----------------- |
 | Config                 | [link](Day001.md) |
-| Kiến trúc hệ thống     | [link](Day002.md) |
+| Khái niệm              | [link](Day002.md) |
 | Entity                 | [link](Day003.md) |
 | Repository             | [link](Day004.md) |
 | Unit test              | [link](Day005.md) |
@@ -28,5 +28,3 @@
 [day7]: Day7.md
 [day8]: Day8.md
 [day9]: Day9.md
-
-
